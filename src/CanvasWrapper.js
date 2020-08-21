@@ -126,8 +126,8 @@ class CanvasWrapper {
         this.drawingWidth = maxX - minX;
         this.drawingHeight = maxY - minY;
 
-        var scaleX = this.canvas.offsetWidth / this.drawingWidth;
-        var scaleY = this.canvas.offsetHeight / this.drawingHeight;
+        var scaleX = this.getCanvasWidth() / this.drawingWidth;
+        var scaleY = this.getCanvasHeight() / this.drawingHeight;
 
         var scale = (scaleX < scaleY) ? scaleX : scaleY;
 
@@ -138,9 +138,9 @@ class CanvasWrapper {
 
         // Center
         if (scaleX < scaleY) {
-            this.offsetY += this.canvas.offsetHeight / (2.0 * scale) - this.drawingHeight / 2.0;
+            this.offsetY += this.getCanvasHeight() / (2.0 * scale) - this.drawingHeight / 2.0;
         } else {
-            this.offsetX += this.canvas.offsetWidth / (2.0 * scale) - this.drawingWidth / 2.0;
+            this.offsetX += this.getCanvasWidth() / (2.0 * scale) - this.drawingWidth / 2.0;
         }
     }
 
@@ -884,7 +884,21 @@ class CanvasWrapper {
      *
      */
     clear() {
-        this.ctx.clearRect(0, 0, this.canvas.offsetWidth, this.canvas.offsetHeight);
+        this.ctx.clearRect(0, 0, this.getCanvasWidth(), this.getCanvasHeight());
+    }
+
+    /**
+     * Gets the rendered width of the canvas or the default one when it's not rendered.
+     */
+    getCanvasWidth() {
+        return this.canvas.clientWidth || this.canvas.width;
+    }
+
+    /**
+     * Gets the rendered height of the canvas or the default one when it's not rendered.
+     */
+    getCanvasHeight() {
+        return this.canvas.clientHeight || this.canvas.height;
     }
 
 }
